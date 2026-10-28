@@ -2,7 +2,7 @@
 
 M.Tech (AIML) — Machine Learning, Assignment 2
 
-**Live app:** <your-streamlit-app-link>
+**Live app:** https://ml-assignment2-classificationmodels-dxp6haqmwv67gtyglkp2u7.streamlit.app/
 **Repository:** <https://github.com/gaurav2026ak05507/ml-assignment2-classificationmodels>
 
 ---
