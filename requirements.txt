@@ -1,6 +1,4 @@
 streamlit>=1.40
-# Must match the version used to train the saved models in model/.
-# If you retrain elsewhere, update this pin to that environment's version.
 scikit-learn==1.9.1
 numpy>=1.26
 pandas>=2.0
