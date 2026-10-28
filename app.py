@@ -50,7 +50,7 @@ if uploaded_file is not None:
     data = pd.read_csv(uploaded_file)
     st.sidebar.success("Using uploaded file: " + uploaded_file.name)
 else:
-    data = pd.read_csv("test_data.csv")
+    data = pd.read_csv("data/online_shoppers_intention.csv")
     st.sidebar.info("No file uploaded. Using the included test_data.csv.")
 
 # Check that the file has all the columns the models need
