@@ -9,9 +9,11 @@ M.Tech (AIML) — Machine Learning, Assignment 2
 
 ## a. Problem statement
 
-An e-commerce site wants to know, from the behaviour recorded during a browsing session, whether that session will end in a purchase. This is a **binary classification** problem: predict `Revenue` (True = the session produced a transaction) from page-visit counts, time spent, Google Analytics engagement metrics, and session context such as month, visitor type and traffic source.
-
-The classes are imbalanced (about 15.5% of sessions convert), so a model that always predicts "no purchase" already scores 84.5% accuracy. Models are therefore judged mainly on **F1 and MCC**, which reward correctly finding the minority class, with accuracy and AUC reported alongside.
+- **What we are solving:** an online shop wants to know whether a visitor will buy something, based only on how they behave on the website during that visit.
+- **Type of problem:** binary classification. The model answers Yes (purchase) or No (no purchase) for each visit, using the `Revenue` column as the answer.
+- **Example used:** the UCI *Online Shoppers Purchasing Intention* dataset: 12,330 real visits to one shopping website over a year. For each visit we know things like how many pages were viewed, how long the visitor stayed, bounce and exit rates, page value, the month and the visitor type.
+- **Why this example:** it is a real business problem (a shop can show offers to likely buyers), it is big enough for all five models, and only about 15.5% of visits end in a purchase. That imbalance makes it a good test of how to judge models fairly.
+- **How we judge the models:** a model that always says "no purchase" would already be 84.5% accurate while finding zero buyers, so accuracy alone is not enough. We mainly compare models on **MCC** and **F1**, which only score high when the model actually finds buyers, and report accuracy, AUC, precision and recall alongside.
 
 ## b. Dataset description
 
@@ -48,6 +50,7 @@ The classes are imbalanced (about 15.5% of sessions convert), so a model that al
 
 ```
 online-shoppers-ml/
+├── .streamlit/config.toml  # Light theme for the app
 ├── app.py                  # Streamlit app (loads saved models; never retrains)
 ├── train_models.py         # Preprocessing, tuning, training, evaluation
 ├── requirements.txt
@@ -99,10 +102,18 @@ Tuned settings: LR `C=0.1`; Decision Tree `max_depth=6, min_samples_leaf=5`; KNN
 
 ## Streamlit app features
 
-- CSV upload for test data (the included `test_data.csv` is used if nothing is uploaded)
-- Model selection dropdown covering all five saved models
-- Evaluation metrics: Accuracy, AUC, Precision, Recall, F1, MCC
-- Confusion matrix and classification report for the selected model
-- Comparison table of all five models, with the best model by MCC
+**Required features**
+- **Upload test data (CSV):** upload your own test file from the sidebar. If nothing is uploaded, the app uses the included `test_data.csv`.
+- **Model dropdown:** choose any of the five saved models.
+- **Evaluation metrics:** Accuracy, AUC, Precision, Recall, F1 and MCC for the chosen model, shown as cards.
+- **Confusion matrix and classification report:** shows how many buyers the model caught or missed, and how many non-buyers it wrongly flagged.
 
-The uploaded CSV must contain all 17 feature columns and the `Revenue` column. The app loads the saved pipelines and only calls `predict`; it never retrains.
+**Extra features**
+- **Problem statement** at the top of the page, in simple bullet points.
+- **Comparison of all five models** in one table, with the best value in each column highlighted.
+- **"Why this model is best" explanation** in plain language: why accuracy can mislead on this data, what MCC and F1 measure, and why the winning model beats the others. It is calculated from the actual results, so it stays correct if a different test file is uploaded.
+- **Data sources panel** on the right, with clickable links to view the full dataset and the test file on GitHub, plus the original UCI dataset page.
+- **Data preview and download:** a quick look at the rows being scored, and a button to download `test_data.csv`.
+- **Clean light theme** (white background, blue accents), set in `.streamlit/config.toml`.
+
+**How the app works:** the uploaded CSV must contain all 17 feature columns and the `Revenue` column. The app only loads the saved models from `model/` and uses them to predict. It never retrains a model on the uploaded data.
